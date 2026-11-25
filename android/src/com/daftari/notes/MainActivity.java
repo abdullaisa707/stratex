@@ -5,7 +5,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
+import java.util.ArrayList;
+import org.json.JSONObject;
 import android.webkit.JavascriptInterface;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
@@ -19,7 +23,7 @@ import java.io.OutputStream;
 public class MainActivity extends Activity {
     // The app UI lives here; updating this site updates the app.
     static final String APP_URL = "https://abdullaisa707.github.io/stratex/";
-    private static final int REQ_PICK = 1, REQ_SAVE = 2;
+    private static final int REQ_PICK = 1, REQ_SAVE = 2, REQ_SPEECH = 3;
     private WebView web;
     private ValueCallback<Uri[]> fileCb;
     private String pendingJson;
@@ -75,6 +79,27 @@ public class MainActivity extends Activity {
         @JavascriptInterface public void retry() {
             runOnUiThread(new Runnable() { public void run() { web.loadUrl(APP_URL); }});
         }
+        @JavascriptInterface public void listen(final String lang) {
+            runOnUiThread(new Runnable() { public void run() {
+                Intent i = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+                i.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+                i.putExtra(RecognizerIntent.EXTRA_LANGUAGE, lang);
+                i.putExtra(RecognizerIntent.EXTRA_PROMPT, "تكلم...");
+                try { startActivityForResult(i, REQ_SPEECH); } catch (Exception e) { js("onSpeech(null,'unavailable')"); }
+            }});
+        }
+        @JavascriptInterface public void setReminders(String json) {
+            ReminderReceiver.schedule(MainActivity.this, json);
+        }
+        @JavascriptInterface public void askNotifications() {
+            runOnUiThread(new Runnable() { public void run() {
+                if (Build.VERSION.SDK_INT >= 33 && checkSelfPermission("android.permission.POST_NOTIFICATIONS") != 0)
+                    requestPermissions(new String[]{"android.permission.POST_NOTIFICATIONS"}, 9);
+            }});
+        }
+        @JavascriptInterface public void testNotification() {
+            ReminderReceiver.show(MainActivity.this, 1, "STRATEX 🔔", "التذكيرات شغالة ✅");
+        }
         @JavascriptInterface public void saveFile(final String name, final String json) {
             runOnUiThread(new Runnable() { public void run() {
                 pendingJson = json;
@@ -91,6 +116,15 @@ public class MainActivity extends Activity {
 
     @Override protected void onActivityResult(int req, int res, Intent data) {
         Uri uri = (res == RESULT_OK && data != null) ? data.getData() : null;
+        if (req == REQ_SPEECH) {
+            String text = null;
+            if (res == RESULT_OK && data != null) {
+                ArrayList<String> r = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                if (r != null && !r.isEmpty()) text = r.get(0);
+            }
+            js("onSpeech(" + (text == null ? "null" : JSONObject.quote(text)) + ")");
+            return;
+        }
         if (req == REQ_PICK && fileCb != null) {
             fileCb.onReceiveValue(uri != null ? new Uri[]{uri} : null);
             fileCb = null;

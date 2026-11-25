@@ -1,6 +1,6 @@
 // Network-first: always try to get the latest version, fall back to cache when offline.
-const CACHE='stratex-v2';
-const FILES=['./','./index.html','./manifest.webmanifest','./icon-192.png','./icon-512.png'];
+const CACHE='stratex-v3';
+const FILES=['./','./index.html','./manifest.webmanifest','./icon-192.png','./icon-512.png','./when.js'];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(FILES)));self.skipWaiting()});
 self.addEventListener('activate',e=>{e.waitUntil(self.clients.claim())});
 self.addEventListener('fetch',e=>{
