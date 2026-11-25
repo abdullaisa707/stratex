@@ -29,7 +29,7 @@ public class MainActivity extends Activity {
         super.onCreate(b);
         prefs = getSharedPreferences("stratex", MODE_PRIVATE);
         web = new WebView(this);
-        web.setBackgroundColor(Color.parseColor("#f6f7fb"));
+        web.setBackgroundColor(Color.parseColor("#0c0c0e"));
         WebSettings s = web.getSettings();
         s.setJavaScriptEnabled(true);
         s.setDomStorageEnabled(true);

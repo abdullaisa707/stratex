@@ -3,74 +3,125 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#4f46e5">
+<meta name="theme-color" content="#0c0c0e">
 <title>STRATEX</title>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon-192.png">
 <style>
-:root{--bg:#f6f7fb;--card:#fff;--text:#1f2333;--muted:#6b7080;--line:#e4e6ef;--accent:#4f46e5;--accent-soft:#eceafd;--danger:#dc2626;--shadow:0 1px 3px rgba(20,20,50,.08)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12131a;--card:#1c1e27;--text:#ecedf3;--muted:#9a9db0;--line:#2c2f3b;--accent:#8b85ff;--accent-soft:#2a2850;--shadow:none}}
-:root[data-theme="dark"]{--bg:#12131a;--card:#1c1e27;--text:#ecedf3;--muted:#9a9db0;--line:#2c2f3b;--accent:#8b85ff;--accent-soft:#2a2850;--shadow:none}
+:root{--bg:#f5f4f0;--card:#fff;--text:#141414;--muted:#6d6a62;--line:#e6e2d6;--gold:#d4af37;--gold-text:#8a6d12;--gold-soft:rgba(212,175,55,.16);--danger:#d93036;--warn:#c76a0a;--ok:#2f8f4e;--shadow:0 1px 3px rgba(0,0,0,.07)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0c0c0e;--card:#16161a;--text:#f2efe6;--muted:#9b978c;--line:#2a2a30;--gold-text:#d4af37;--gold-soft:rgba(212,175,55,.14);--danger:#ff5c61;--warn:#f0a24a;--ok:#4cc073;--shadow:none}}
+:root[data-theme="dark"]{--bg:#0c0c0e;--card:#16161a;--text:#f2efe6;--muted:#9b978c;--line:#2a2a30;--gold-text:#d4af37;--gold-soft:rgba(212,175,55,.14);--danger:#ff5c61;--warn:#f0a24a;--ok:#4cc073;--shadow:none}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,"Segoe UI",Tahoma,sans-serif;font-size:16px}
 button,input,textarea,select{font:inherit;color:inherit}
 button{cursor:pointer;border:0;background:none}
-header{position:sticky;top:0;z-index:5;background:var(--bg);padding:14px 16px 8px;padding-top:max(14px,env(safe-area-inset-top))}
+header{position:sticky;top:0;z-index:5;background:var(--bg);padding:14px 16px 6px;padding-top:max(14px,env(safe-area-inset-top))}
 .top{display:flex;align-items:center;gap:8px}
-.top h1{font-size:22px;margin:0;flex:1;letter-spacing:2px;font-weight:800}
+.logo{font-size:24px;margin:0;flex:1;letter-spacing:3px;font-weight:900;direction:ltr;text-align:right}
+.logo span{color:var(--gold)}
 .icon-btn{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;font-size:18px;background:var(--card);box-shadow:var(--shadow);border:1px solid var(--line)}
+.tabs{display:flex;gap:6px;margin-top:10px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:4px}
+.tab{flex:1;padding:9px;border-radius:10px;font-weight:700;color:var(--muted)}
+.tab.on{background:var(--text);color:var(--bg)}
+.tab .badge{display:inline-block;min-width:20px;padding:0 6px;margin-inline-start:6px;border-radius:999px;background:var(--danger);color:#fff;font-size:12px;line-height:20px}
 .search{margin-top:10px;width:100%;padding:11px 14px;border-radius:12px;border:1px solid var(--line);background:var(--card);outline:none}
-.search:focus{border-color:var(--accent)}
-.chips{display:flex;gap:8px;overflow-x:auto;padding:10px 16px 4px;scrollbar-width:none}
+.search:focus,.field:focus{border-color:var(--gold)}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:8px 16px 2px;scrollbar-width:none}
 .chips::-webkit-scrollbar{display:none}
-.chip{flex:0 0 auto;padding:8px 14px;border-radius:999px;background:var(--card);border:1px solid var(--line);white-space:nowrap;font-size:15px}
-.chip.on{background:var(--accent);border-color:var(--accent);color:#fff}
-.chip .n{opacity:.7;font-size:12px;margin-inline-start:4px}
+.chips.sub{padding-top:4px}
+.chip{flex:0 0 auto;padding:8px 14px;border-radius:999px;background:var(--card);border:1px solid var(--line);white-space:nowrap;font-size:15px;display:flex;align-items:center;gap:6px}
+.chips.sub .chip{padding:5px 12px;font-size:14px}
+.chip.on{background:var(--gold);border-color:var(--gold);color:#111;font-weight:700}
+.chip .n{opacity:.65;font-size:12px}
+.chip .dot{width:9px;height:9px}
 main{padding:8px 16px 110px;max-width:760px;margin:0 auto}
-.sec-head{display:flex;align-items:center;justify-content:space-between;margin:12px 2px 8px;color:var(--muted);font-size:14px}
-.sec-head button{color:var(--accent);font-size:14px}
+.sec-head{display:flex;align-items:center;gap:8px;margin:16px 2px 8px;color:var(--muted);font-size:14px;font-weight:700}
+.sec-head.red{color:var(--danger)}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px}
-.note{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;box-shadow:var(--shadow);text-align:start;display:flex;flex-direction:column;gap:6px;min-height:90px;border-top:4px solid var(--c,var(--line))}
+.note{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;box-shadow:var(--shadow);text-align:start;display:flex;flex-direction:column;gap:7px;min-height:90px;border-top:4px solid var(--c,var(--line));cursor:pointer}
+.note.done{opacity:.55}
+.note.done h3{text-decoration:line-through}
 .note h3{margin:0;font-size:16px;word-break:break-word}
-.note p{margin:0;color:var(--muted);font-size:14px;line-height:1.5;display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden;white-space:pre-wrap;word-break:break-word}
+.note p{margin:0;color:var(--muted);font-size:14px;line-height:1.5;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden;white-space:pre-wrap;word-break:break-word}
+.tags{display:flex;gap:6px;flex-wrap:wrap}
+.tag{font-size:12px;padding:2px 8px;border-radius:999px;background:var(--gold-soft);color:var(--gold-text);font-weight:600}
+.due{font-size:12px;padding:2px 8px;border-radius:999px;border:1px solid var(--line);color:var(--muted);font-weight:600}
+.due.late{background:var(--danger);border-color:var(--danger);color:#fff}
+.due.soon{border-color:var(--warn);color:var(--warn)}
+.due.ok{border-color:var(--ok);color:var(--ok)}
+.tasks-mini{display:flex;flex-direction:column;gap:4px;font-size:14px}
+.tk{display:flex;gap:8px;align-items:flex-start;text-align:start;padding:2px 0;line-height:1.4;word-break:break-word}
+.tk .box{flex:0 0 auto;width:18px;height:18px;border-radius:5px;border:2px solid var(--muted);display:grid;place-items:center;font-size:12px;margin-top:1px}
+.tk.on .box{background:var(--gold);border-color:var(--gold);color:#111}
+.tk.on .t{text-decoration:line-through;color:var(--muted)}
+.prog{height:5px;border-radius:5px;background:var(--line);overflow:hidden}
+.prog i{display:block;height:100%;background:var(--gold)}
+.more{font-size:12px;color:var(--muted)}
 .note .meta{margin-top:auto;font-size:12px;color:var(--muted);display:flex;justify-content:space-between;gap:6px}
+.note .meta span:last-child{white-space:nowrap}
+.drow{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;margin-bottom:8px;border-inline-start:4px solid var(--c,var(--line));cursor:pointer}
+.drow .info{flex:1;min-width:0}
+.drow .info b{display:block;word-break:break-word}
+.drow .info small{color:var(--muted)}
+.drow .when{text-align:center;font-size:12px;font-weight:700;min-width:64px}
+.drow.done{opacity:.5}.drow.done b{text-decoration:line-through}
 .empty{text-align:center;color:var(--muted);padding:50px 10px}
 .empty b{display:block;font-size:40px;margin-bottom:8px}
-.fab{position:fixed;bottom:max(20px,env(safe-area-inset-bottom));inset-inline-start:20px;width:58px;height:58px;border-radius:18px;background:var(--accent);color:#fff;font-size:30px;box-shadow:0 6px 18px rgba(79,70,229,.4);z-index:6}
-.sheet-bg{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:20;display:none;align-items:flex-end;justify-content:center}
+.fab{position:fixed;bottom:max(20px,env(safe-area-inset-bottom));inset-inline-start:20px;width:58px;height:58px;border-radius:18px;background:var(--gold);color:#111;font-size:32px;font-weight:300;box-shadow:0 6px 18px rgba(212,175,55,.35);z-index:6}
+.sheet-bg{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:20;display:none;align-items:flex-end;justify-content:center}
 .sheet-bg.open{display:flex}
 .sheet{background:var(--card);width:100%;max-width:760px;max-height:94vh;border-radius:20px 20px 0 0;padding:16px;padding-bottom:max(16px,env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:10px;overflow:auto}
-.sheet h2{margin:0 0 4px;font-size:18px}
+.sheet h2{margin:0;font-size:18px}
 .row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 .field{width:100%;padding:11px 12px;border-radius:12px;border:1px solid var(--line);background:var(--bg);outline:none}
-.field:focus{border-color:var(--accent)}
-textarea.field{min-height:42vh;resize:vertical;line-height:1.6}
-.btn{padding:10px 16px;border-radius:12px;background:var(--accent-soft);color:var(--accent);font-weight:600}
-.btn.primary{background:var(--accent);color:#fff}
+textarea.field{min-height:22vh;resize:vertical;line-height:1.6}
+label.lbl{font-size:13px;color:var(--muted);font-weight:700;margin-bottom:-4px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.btn{padding:10px 16px;border-radius:12px;background:var(--gold-soft);color:var(--gold-text);font-weight:700}
+.btn.primary{background:var(--gold);color:#111}
 .btn.danger{background:transparent;color:var(--danger)}
+.btn.small{padding:6px 10px;font-size:14px}
 .spacer{flex:1}
 .colors{display:flex;gap:8px;flex-wrap:wrap}
 .colors button{width:30px;height:30px;border-radius:50%;border:3px solid transparent}
 .colors button.on{border-color:var(--text)}
-.list-item{display:flex;align-items:center;gap:10px;padding:10px;border:1px solid var(--line);border-radius:12px}
-.dot{width:14px;height:14px;border-radius:50%;flex:0 0 auto}
-.list-item .name{flex:1}
-.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:var(--text);color:var(--bg);padding:10px 16px;border-radius:12px;font-size:14px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:30}
+.edit-tasks{display:flex;flex-direction:column;gap:6px}
+.et{display:flex;align-items:center;gap:8px}
+.et .box{flex:0 0 auto;width:24px;height:24px;border-radius:7px;border:2px solid var(--muted);display:grid;place-items:center;font-size:14px}
+.et.on .box{background:var(--gold);border-color:var(--gold);color:#111}
+.et input{flex:1;padding:8px 10px;border-radius:10px;border:1px solid var(--line);background:var(--bg);outline:none}
+.et.on input{text-decoration:line-through;color:var(--muted)}
+.et .x{color:var(--muted);font-size:18px;padding:4px 8px}
+.sec-card{border:1px solid var(--line);border-radius:14px;padding:10px;display:flex;flex-direction:column;gap:8px}
+.sec-card .top-row{display:flex;align-items:center;gap:8px}
+.sec-card .name{flex:1;font-weight:700}
+.dot{width:14px;height:14px;border-radius:50%;flex:0 0 auto;display:inline-block}
+.cat-chips{display:flex;gap:6px;flex-wrap:wrap}
+.cat-chip{font-size:13px;padding:5px 10px;border-radius:999px;background:var(--gold-soft);color:var(--gold-text);font-weight:600;display:flex;gap:6px;align-items:center}
+.cat-chip.add{background:transparent;border:1px dashed var(--muted);color:var(--muted)}
+.cat-chip .x{opacity:.7}
+.check{display:flex;gap:8px;align-items:center;font-size:14px;color:var(--muted)}
+.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:var(--text);color:var(--bg);padding:10px 16px;border-radius:12px;font-size:14px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:30;white-space:nowrap}
 .toast.show{opacity:1}
-.pin{font-size:13px}
 small.hint{color:var(--muted)}
+hr.sep{border:0;border-top:1px solid var(--line);width:100%;margin:4px 0}
 </style>
 </head>
 <body>
 <header>
   <div class="top">
-    <h1>STRATEX</h1>
+    <h1 class="logo">STRATE<span>X</span></h1>
     <button class="icon-btn" id="themeBtn" aria-label="الوضع">🌓</button>
     <button class="icon-btn" id="menuBtn" aria-label="الإعدادات">⚙️</button>
   </div>
-  <input class="search" id="search" type="search" placeholder="ابحث في نوتاتك...">
+  <div class="tabs">
+    <button class="tab on" data-view="notes">📝 النوتات</button>
+    <button class="tab" data-view="due">📅 المواعيد<span class="badge" id="dueBadge" hidden></span></button>
+  </div>
+  <input class="search" id="search" type="search" placeholder="ابحث في نوتاتك ومهامك...">
 </header>
 <nav class="chips" id="chips"></nav>
+<nav class="chips sub" id="subChips"></nav>
 <main id="main"></main>
 <button class="fab" id="addBtn" aria-label="نوت جديدة">+</button>
 
@@ -79,10 +130,23 @@ small.hint{color:var(--muted)}
   <div class="sheet">
     <div class="row">
       <h2 id="noteSheetTitle">نوت جديدة</h2><span class="spacer"></span>
-      <button class="btn" id="pinBtn">📌 تثبيت</button>
+      <button class="btn small" id="doneBtn">✔ خلصت</button>
+      <button class="btn small" id="pinBtn">📌 تثبيت</button>
     </div>
     <input class="field" id="noteTitle" placeholder="العنوان">
-    <select class="field" id="noteSection"></select>
+    <div class="two">
+      <div><label class="lbl">القسم</label><select class="field" id="noteSection"></select></div>
+      <div><label class="lbl">التصنيف</label><select class="field" id="noteCat"></select></div>
+    </div>
+    <label class="lbl">📅 موعد التسليم (اختياري)</label>
+    <div class="row">
+      <input class="field" type="date" id="noteDue" style="flex:1">
+      <button class="btn small" id="clearDue">بدون موعد</button>
+    </div>
+    <label class="lbl">✅ المهام</label>
+    <div class="edit-tasks" id="editTasks"></div>
+    <div class="row"><input class="field" id="newTask" placeholder="+ أضف مهمة واضغط Enter" style="flex:1"><button class="btn small" id="addTaskBtn">إضافة</button></div>
+    <label class="lbl">📝 ملاحظات</label>
     <textarea class="field" id="noteBody" placeholder="اكتب هنا..."></textarea>
     <div class="row">
       <button class="btn danger" id="delNote">🗑 حذف</button>
@@ -93,25 +157,27 @@ small.hint{color:var(--muted)}
   </div>
 </div>
 
-<!-- Settings / sections -->
+<!-- Settings -->
 <div class="sheet-bg" id="menuSheet">
   <div class="sheet">
-    <h2>الأقسام</h2>
+    <h2>الأقسام والتصنيفات</h2>
+    <small class="hint">اضغط على أي تصنيف عشان تغيّر اسمه.</small>
     <div id="secList" style="display:flex;flex-direction:column;gap:8px"></div>
-    <div class="row">
-      <input class="field" id="newSecName" placeholder="اسم قسم جديد" style="flex:1">
-    </div>
+    <hr class="sep">
+    <h2>قسم جديد</h2>
+    <input class="field" id="newSecName" placeholder="مثلاً: Marketing 101">
     <div class="colors" id="colors"></div>
-    <button class="btn primary" id="addSec">+ إضافة قسم</button>
-    <hr style="border:0;border-top:1px solid var(--line);width:100%">
+    <label class="check"><input type="checkbox" id="uniCats" checked> أضف تصنيفات الجامعة (محاضرات، واجبات، امتحانات)</label>
+    <button class="btn primary" id="addSec">+ إضافة القسم</button>
+    <hr class="sep">
     <h2>النسخ الاحتياطي</h2>
-    <small class="hint">نوتاتك محفوظة على جهازك. صدّر نسخة احتياطية بين فترة وفترة حتى ما تضيع لو حذفت التطبيق.</small>
+    <small class="hint">نوتاتك محفوظة على جهازك بس. صدّر نسخة احتياطية بين فترة وفترة حتى ما تضيع لو حذفت التطبيق.</small>
     <div class="row">
       <button class="btn" id="exportBtn">⬇️ تصدير نسخة</button>
       <button class="btn" id="importBtn">⬆️ استرجاع نسخة</button>
       <input type="file" id="importFile" accept=".json,application/json" hidden>
     </div>
-    <div class="row"><span class="spacer"></span><button class="btn" id="closeMenu">تم</button></div>
+    <div class="row"><span class="spacer"></span><button class="btn primary" id="closeMenu">تم</button></div>
   </div>
 </div>
 
@@ -120,90 +186,188 @@ small.hint{color:var(--muted)}
 <script>
 (function(){
 const KEY='daftari-v1';
-const COLORS=['#4f46e5','#0ea5e9','#10b981','#f59e0b','#ef4444','#ec4899','#8b5cf6','#64748b'];
+const COLORS=['#d4af37','#d93036','#2f6fdb','#2f8f4e','#8b5cf6','#e8772e','#0d9488','#6b7280'];
+const UNI_CATS=['محاضرات','واجبات','امتحانات'];
 const $=id=>document.getElementById(id);
 let state=load();
-let current='all';     // section filter
-let editingId=null, editPinned=false, newColor=COLORS[0];
+let view='notes', current='all', currentCat='all';
+let ed=null; // note being edited (working copy)
+let newColor=COLORS[0];
 
 function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7)}
+function mkCats(names){return names.map(n=>({id:uid(),name:n}))}
 function defaults(){
-  const s=[{id:uid(),name:'شخصي',color:COLORS[0]},{id:uid(),name:'شغل',color:COLORS[1]},{id:uid(),name:'أفكار',color:COLORS[3]}];
-  return {sections:s,notes:[{id:uid(),title:'أهلاً في STRATEX 👋',body:'- اضغط + عشان تضيف نوت\n- اختر القسم من فوق عشان تفلتر\n- من ⚙️ تقدر تضيف أقسام وتسوي نسخة احتياطية',sectionId:s[0].id,pinned:true,updated:Date.now()}],theme:null};
+  const s=[{id:uid(),name:'الجامعة',color:COLORS[0],cats:mkCats(UNI_CATS)},{id:uid(),name:'شخصي',color:COLORS[2],cats:[]},{id:uid(),name:'أفكار',color:COLORS[4],cats:[]}];
+  return {sections:s,notes:[{id:uid(),title:'أهلاً في STRATEX 👋',body:'اضغط على النوت عشان تفتحها وتعدلها.',sectionId:s[0].id,catId:null,pinned:true,done:false,due:null,
+    tasks:[{id:uid(),text:'اضغط + عشان تضيف نوت',done:true},{id:uid(),text:'حط موعد تسليم لواجباتك',done:false},{id:uid(),text:'من ⚙️ رتّب أقسامك وتصنيفاتها',done:false}],updated:Date.now()}],theme:null};
 }
 function valid(d){return d&&Array.isArray(d.sections)&&Array.isArray(d.notes)}
+function normalize(d){
+  for(const s of d.sections){if(!Array.isArray(s.cats))s.cats=[]}
+  for(const n of d.notes){if(!Array.isArray(n.tasks))n.tasks=[];if(n.due===undefined)n.due=null;if(n.catId===undefined)n.catId=null;n.done=!!n.done;n.pinned=!!n.pinned}
+  return d;
+}
 function load(){
-  try{const d=JSON.parse(localStorage.getItem(KEY));if(valid(d))return d}catch(e){}
+  try{const d=JSON.parse(localStorage.getItem(KEY));if(valid(d))return normalize(d)}catch(e){}
   // First run in the updatable app: bring over notes from the old offline version.
-  try{if(window.Android&&Android.takeOldNotes){const o=JSON.parse(Android.takeOldNotes()||'null');if(valid(o)){localStorage.setItem(KEY,JSON.stringify(o));setTimeout(()=>toast('نقلنا نوتاتك القديمة ✅'),300);return o}}}catch(e){}
+  try{if(window.Android&&Android.takeOldNotes){const o=JSON.parse(Android.takeOldNotes()||'null');if(valid(o)){normalize(o);localStorage.setItem(KEY,JSON.stringify(o));setTimeout(()=>toast('نقلنا نوتاتك القديمة ✅'),300);return o}}}catch(e){}
   return defaults()}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){toast('تعذّر الحفظ!')}}
 function toast(m){const t=$('toast');t.textContent=m;t.classList.add('show');clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove('show'),1800)}
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function sec(id){return state.sections.find(s=>s.id===id)}
-function fmt(t){const d=new Date(t);return d.toLocaleDateString('ar',{day:'numeric',month:'short'})}
+function cat(n){const s=sec(n.sectionId);return s&&n.catId?s.cats.find(c=>c.id===n.catId):null}
+function fmt(t){return new Date(t).toLocaleDateString('ar',{day:'numeric',month:'short'})}
+function isDone(n){return n.done||(n.tasks.length>0&&n.tasks.every(t=>t.done))}
+
+// ----- dates
+function today0(){const d=new Date();d.setHours(0,0,0,0);return d}
+function daysLeft(due){const [y,m,d]=due.split('-').map(Number);return Math.round((new Date(y,m-1,d)-today0())/864e5)}
+function dueLabel(due){const k=daysLeft(due);
+  if(k<0)return k===-1?'متأخر يوم':`متأخر ${-k} أيام`;
+  if(k===0)return 'اليوم';if(k===1)return 'بكرة';if(k===2)return 'بعد بكرة';
+  if(k<=10)return `بعد ${k} أيام`;
+  const [y,m,d]=due.split('-').map(Number);return new Date(y,m-1,d).toLocaleDateString('ar',{day:'numeric',month:'short'})}
+function dueClass(n){if(!n.due)return '';if(isDone(n))return 'ok';const k=daysLeft(n.due);return k<0?'late':k<=2?'soon':''}
 
 function applyTheme(){if(state.theme)document.documentElement.dataset.theme=state.theme;else delete document.documentElement.dataset.theme}
 
+// ----- filters
+function matches(n){
+  const q=$('search').value.trim().toLowerCase();
+  if(current!=='all'&&n.sectionId!==current)return false;
+  if(current!=='all'&&currentCat!=='all'&&(currentCat==='none'?n.catId:n.catId!==currentCat))return false;
+  if(q&&!(n.title+' '+n.body+' '+n.tasks.map(t=>t.text).join(' ')).toLowerCase().includes(q))return false;
+  return true;
+}
 function renderChips(){
   const count=id=>state.notes.filter(n=>id==='all'||n.sectionId===id).length;
-  let h=`<button class="chip ${current==='all'?'on':''}" data-id="all">الكل<span class="n">${count('all')}</span></button>`;
-  for(const s of state.sections)h+=`<button class="chip ${current===s.id?'on':''}" data-id="${s.id}"><span class="dot" style="display:inline-block;width:9px;height:9px;background:${s.color};margin-inline-end:6px"></span>${esc(s.name)}<span class="n">${count(s.id)}</span></button>`;
+  let h=`<button class="chip ${current==='all'?'on':''}" data-id="all">الكل <span class="n">${count('all')}</span></button>`;
+  for(const s of state.sections)h+=`<button class="chip ${current===s.id?'on':''}" data-id="${s.id}"><span class="dot" style="background:${s.color}"></span>${esc(s.name)} <span class="n">${count(s.id)}</span></button>`;
   $('chips').innerHTML=h;
+  const s=current!=='all'&&sec(current);
+  if(s&&s.cats.length){
+    const cc=id=>state.notes.filter(n=>n.sectionId===s.id&&(id==='all'||(id==='none'?!n.catId:n.catId===id))).length;
+    let sh=`<button class="chip ${currentCat==='all'?'on':''}" data-cat="all">الكل</button>`;
+    for(const c of s.cats)sh+=`<button class="chip ${currentCat===c.id?'on':''}" data-cat="${c.id}">${esc(c.name)} <span class="n">${cc(c.id)}</span></button>`;
+    if(cc('none'))sh+=`<button class="chip ${currentCat==='none'?'on':''}" data-cat="none">بدون تصنيف <span class="n">${cc('none')}</span></button>`;
+    $('subChips').innerHTML=sh;$('subChips').hidden=false;
+  }else{$('subChips').innerHTML='';$('subChips').hidden=true}
+  const urgent=state.notes.filter(n=>n.due&&!isDone(n)&&daysLeft(n.due)<=2).length;
+  $('dueBadge').hidden=!urgent;$('dueBadge').textContent=urgent;
+}
+function tasksMini(n){
+  if(!n.tasks.length)return '';
+  const d=n.tasks.filter(t=>t.done).length,show=n.tasks.slice(0,4);
+  return `<div class="prog"><i style="width:${Math.round(d/n.tasks.length*100)}%"></i></div>
+  <div class="tasks-mini">${show.map(t=>`<div class="tk ${t.done?'on':''}" data-note="${n.id}" data-task="${t.id}"><span class="box">${t.done?'✓':''}</span><span class="t">${esc(t.text)}</span></div>`).join('')}
+  ${n.tasks.length>4?`<span class="more">+${n.tasks.length-4} مهام ثانية</span>`:''}</div>`;
 }
 function noteCard(n){
-  const s=sec(n.sectionId);
-  return `<button class="note" data-id="${n.id}" style="--c:${s?s.color:'var(--line)'}">
-    <h3>${n.pinned?'<span class="pin">📌</span> ':''}${esc(n.title||'بدون عنوان')}</h3>
+  const s=sec(n.sectionId),c=cat(n),done=isDone(n);
+  const tags=(c?`<span class="tag">${esc(c.name)}</span>`:'')+(n.due?`<span class="due ${dueClass(n)}">📅 ${done?'تم':dueLabel(n.due)}</span>`:'');
+  return `<div class="note ${done?'done':''}" data-id="${n.id}" style="--c:${s?s.color:'var(--line)'}">
+    <h3>${n.pinned?'📌 ':''}${esc(n.title||'بدون عنوان')}</h3>
+    ${tags?`<div class="tags">${tags}</div>`:''}
+    ${tasksMini(n)}
     ${n.body?`<p>${esc(n.body)}</p>`:''}
-    <div class="meta"><span>${s?esc(s.name):''}</span><span>${fmt(n.updated)}</span></div></button>`;
+    <div class="meta"><span>${s?esc(s.name):''}${n.tasks.length?` · ${n.tasks.filter(t=>t.done).length}/${n.tasks.length} ✅`:''}</span><span>${fmt(n.updated)}</span></div></div>`;
 }
-function renderMain(){
-  const q=$('search').value.trim().toLowerCase();
-  let list=state.notes.filter(n=>(current==='all'||n.sectionId===current)&&(!q||(n.title+' '+n.body).toLowerCase().includes(q)));
-  list.sort((a,b)=>(b.pinned-a.pinned)||(b.updated-a.updated));
-  if(!list.length){$('main').innerHTML=`<div class="empty"><b>${q?'🔍':'📝'}</b>${q?'ما في نتائج':'ما في نوتات هنا بعد، اضغط + وابدأ'}</div>`;return}
+function renderNotes(){
+  let list=state.notes.filter(matches);
+  list.sort((a,b)=>(b.pinned-a.pinned)||(isDone(a)-isDone(b))||(b.updated-a.updated));
+  if(!list.length){$('main').innerHTML=`<div class="empty"><b>${$('search').value.trim()?'🔍':'📝'}</b>${$('search').value.trim()?'ما في نتائج':'ما في نوتات هنا بعد، اضغط + وابدأ'}</div>`;return}
   const pinned=list.filter(n=>n.pinned),rest=list.filter(n=>!n.pinned);
   let h='';
   if(pinned.length)h+=`<div class="sec-head">📌 المثبتة</div><div class="grid">${pinned.map(noteCard).join('')}</div>`;
   if(rest.length)h+=`${pinned.length?'<div class="sec-head">الباقي</div>':''}<div class="grid">${rest.map(noteCard).join('')}</div>`;
   $('main').innerHTML=h;
 }
-function render(){renderChips();renderMain()}
+function dueRow(n){
+  const s=sec(n.sectionId),c=cat(n),done=isDone(n);
+  const sub=[s?s.name:'',c?c.name:'',n.tasks.length?`${n.tasks.filter(t=>t.done).length}/${n.tasks.length} مهام`:''].filter(Boolean).map(esc).join(' · ');
+  return `<div class="drow ${done?'done':''}" data-id="${n.id}" style="--c:${s?s.color:'var(--line)'}">
+    <div class="info"><b>${esc(n.title||'بدون عنوان')}</b><small>${sub}</small></div>
+    <div class="when"><span class="due ${dueClass(n)}">${done?'✓ تم':dueLabel(n.due)}</span></div></div>`;
+}
+function renderDue(){
+  const list=state.notes.filter(n=>n.due&&matches(n)).sort((a,b)=>a.due.localeCompare(b.due));
+  if(!list.length){$('main').innerHTML='<div class="empty"><b>📅</b>ما في مواعيد تسليم.<br>افتح أي نوت وحط لها موعد.</div>';return}
+  const open=list.filter(n=>!isDone(n)),done=list.filter(isDone).reverse();
+  const groups=[['⚠️ متأخرة',n=>daysLeft(n.due)<0,'red'],['🔥 اليوم وبكرة',n=>daysLeft(n.due)>=0&&daysLeft(n.due)<=1,''],['هذا الأسبوع',n=>daysLeft(n.due)>=2&&daysLeft(n.due)<=7,''],['لاحقاً',n=>daysLeft(n.due)>7,'']];
+  let h='';
+  for(const [t,f,cls] of groups){const g=open.filter(f);if(g.length)h+=`<div class="sec-head ${cls}">${t} (${g.length})</div>${g.map(dueRow).join('')}`}
+  if(done.length)h+=`<div class="sec-head">✓ مكتملة (${done.length})</div>${done.map(dueRow).join('')}`;
+  $('main').innerHTML=h;
+}
+function render(){renderChips();view==='due'?renderDue():renderNotes()}
 
 // ----- note editor
 function openNote(id){
   if(!state.sections.length){toast('أضف قسم أول من ⚙️');openMenu();return}
-  editingId=id;const n=id?state.notes.find(x=>x.id===id):null;
-  $('noteSheetTitle').textContent=n?'تعديل النوت':'نوت جديدة';
-  $('noteTitle').value=n?n.title:'';$('noteBody').value=n?n.body:'';
+  const n=id?state.notes.find(x=>x.id===id):null;
+  ed=n?JSON.parse(JSON.stringify(n)):{id:null,title:'',body:'',sectionId:current!=='all'?current:state.sections[0].id,catId:(current!=='all'&&currentCat!=='all'&&currentCat!=='none')?currentCat:null,pinned:false,done:false,due:null,tasks:[]};
+  $('noteSheetTitle').textContent=n?'تعديل':'نوت جديدة';
+  $('noteTitle').value=ed.title;$('noteBody').value=ed.body;$('noteDue').value=ed.due||'';$('newTask').value='';
   $('noteSection').innerHTML=state.sections.map(s=>`<option value="${s.id}">${esc(s.name)}</option>`).join('');
-  $('noteSection').value=n?n.sectionId:(current!=='all'?current:state.sections[0].id);
-  editPinned=n?!!n.pinned:false;updatePin();
+  $('noteSection').value=ed.sectionId;fillCats();
+  updateToggles();renderEditTasks();
   $('delNote').style.visibility=n?'visible':'hidden';
   $('noteSheet').classList.add('open');
   if(!n)setTimeout(()=>$('noteTitle').focus(),50);
 }
-function updatePin(){$('pinBtn').textContent=editPinned?'📌 مثبتة':'📌 تثبيت';$('pinBtn').classList.toggle('primary',editPinned)}
-function closeNote(){$('noteSheet').classList.remove('open');editingId=null}
+function fillCats(){
+  const s=sec($('noteSection').value);
+  $('noteCat').innerHTML='<option value="">بدون تصنيف</option>'+(s?s.cats.map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join(''):'');
+  $('noteCat').value=(s&&s.cats.some(c=>c.id===ed.catId))?ed.catId:'';
+}
+function updateToggles(){
+  $('pinBtn').textContent=ed.pinned?'📌 مثبتة':'📌 تثبيت';$('pinBtn').classList.toggle('primary',ed.pinned);
+  $('doneBtn').textContent=ed.done?'✔ مخلصة':'✔ خلصت';$('doneBtn').classList.toggle('primary',ed.done);
+}
+function renderEditTasks(){
+  $('editTasks').innerHTML=ed.tasks.map(t=>`<div class="et ${t.done?'on':''}" data-id="${t.id}"><button class="box" data-act="toggle">${t.done?'✓':''}</button><input value="${esc(t.text)}" data-act="text"><button class="x" data-act="del" aria-label="حذف">×</button></div>`).join('');
+}
+function addTask(){const v=$('newTask').value.trim();if(!v)return;ed.tasks.push({id:uid(),text:v,done:false});$('newTask').value='';renderEditTasks();$('newTask').focus()}
+function closeNote(){$('noteSheet').classList.remove('open');ed=null}
 function saveNote(){
-  const title=$('noteTitle').value.trim(),body=$('noteBody').value;
-  if(!title&&!body.trim()){closeNote();return}
-  const data={title,body,sectionId:$('noteSection').value,pinned:editPinned,updated:Date.now()};
-  if(editingId)Object.assign(state.notes.find(n=>n.id===editingId),data);
-  else state.notes.push({id:uid(),...data});
+  addTask();
+  ed.title=$('noteTitle').value.trim();ed.body=$('noteBody').value;ed.due=$('noteDue').value||null;
+  ed.sectionId=$('noteSection').value;ed.catId=$('noteCat').value||null;
+  ed.tasks=ed.tasks.filter(t=>t.text.trim());
+  if(!ed.title&&!ed.body.trim()&&!ed.tasks.length){closeNote();return}
+  ed.updated=Date.now();
+  if(ed.id){const i=state.notes.findIndex(n=>n.id===ed.id);state.notes[i]=ed}
+  else{ed.id=uid();state.notes.push(ed)}
   save();closeNote();render();toast('انحفظت ✅');
 }
 $('addBtn').onclick=()=>openNote(null);
-$('main').onclick=e=>{const c=e.target.closest('.note');if(c)openNote(c.dataset.id)};
-$('pinBtn').onclick=()=>{editPinned=!editPinned;updatePin()};
+$('main').onclick=e=>{
+  const tk=e.target.closest('.tk');
+  if(tk){const n=state.notes.find(x=>x.id===tk.dataset.note),t=n&&n.tasks.find(x=>x.id===tk.dataset.task);
+    if(t){t.done=!t.done;n.updated=Date.now();save();render();if(t.done&&isDone(n))toast('كفو! خلصت كل المهام 💪')}return}
+  const c=e.target.closest('.note,.drow');if(c)openNote(c.dataset.id)};
+$('noteSection').onchange=()=>{ed.catId=null;fillCats()};
+$('pinBtn').onclick=()=>{ed.pinned=!ed.pinned;updateToggles()};
+$('doneBtn').onclick=()=>{ed.done=!ed.done;updateToggles()};
+$('clearDue').onclick=()=>{$('noteDue').value=''};
+$('addTaskBtn').onclick=addTask;
+$('newTask').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();addTask()}};
+$('editTasks').onclick=e=>{const row=e.target.closest('.et'),act=e.target.closest('[data-act]');if(!row||!act)return;
+  const t=ed.tasks.find(x=>x.id===row.dataset.id);
+  if(act.dataset.act==='toggle'){t.done=!t.done;renderEditTasks()}
+  if(act.dataset.act==='del'){ed.tasks=ed.tasks.filter(x=>x!==t);renderEditTasks()}};
+$('editTasks').oninput=e=>{const row=e.target.closest('.et');if(row&&e.target.dataset.act==='text')ed.tasks.find(x=>x.id===row.dataset.id).text=e.target.value};
 $('saveNote').onclick=saveNote;
 $('cancelNote').onclick=closeNote;
-$('delNote').onclick=()=>{if(confirm('أكيد تبي تحذف النوت؟')){state.notes=state.notes.filter(n=>n.id!==editingId);save();closeNote();render();toast('انحذفت')}};
+$('delNote').onclick=()=>{if(confirm('أكيد تبي تحذف النوت؟')){state.notes=state.notes.filter(n=>n.id!==ed.id);save();closeNote();render();toast('انحذفت')}};
 
-// ----- sections
+// ----- sections & categories
 function renderSecList(){
-  $('secList').innerHTML=state.sections.map(s=>`<div class="list-item"><span class="dot" style="background:${s.color}"></span><span class="name">${esc(s.name)}</span><small class="hint">${state.notes.filter(n=>n.sectionId===s.id).length}</small><button class="btn" data-ren="${s.id}">✏️</button><button class="btn danger" data-del="${s.id}">🗑</button></div>`).join('')||'<small class="hint">ما في أقسام</small>';
+  $('secList').innerHTML=state.sections.map(s=>`<div class="sec-card" data-sec="${s.id}">
+    <div class="top-row"><span class="dot" style="background:${s.color}"></span><span class="name">${esc(s.name)}</span><small class="hint">${state.notes.filter(n=>n.sectionId===s.id).length} نوت</small>
+    <button class="btn small" data-act="ren">✏️</button><button class="btn small danger" data-act="del">🗑</button></div>
+    <div class="cat-chips">${s.cats.map(c=>`<span class="cat-chip" data-cat="${c.id}" data-act="rencat">${esc(c.name)}<button class="x" data-act="delcat" aria-label="حذف">×</button></span>`).join('')}<button class="cat-chip add" data-act="addcat">+ تصنيف</button></div></div>`).join('')||'<small class="hint">ما في أقسام</small>';
   $('colors').innerHTML=COLORS.map(c=>`<button style="background:${c}" class="${c===newColor?'on':''}" data-c="${c}"></button>`).join('');
 }
 function openMenu(){renderSecList();$('menuSheet').classList.add('open')}
@@ -211,17 +375,26 @@ $('menuBtn').onclick=openMenu;
 $('closeMenu').onclick=()=>{$('menuSheet').classList.remove('open');render()};
 $('colors').onclick=e=>{const b=e.target.closest('[data-c]');if(b){newColor=b.dataset.c;renderSecList()}};
 $('addSec').onclick=()=>{const name=$('newSecName').value.trim();if(!name){toast('اكتب اسم القسم');return}
-  state.sections.push({id:uid(),name,color:newColor});$('newSecName').value='';save();renderSecList();render();toast('انضاف القسم')};
+  state.sections.push({id:uid(),name,color:newColor,cats:$('uniCats').checked?mkCats(UNI_CATS):[]});$('newSecName').value='';save();renderSecList();render();toast('انضاف القسم')};
 $('secList').onclick=e=>{
-  const r=e.target.closest('[data-ren]'),d=e.target.closest('[data-del]');
-  if(r){const s=sec(r.dataset.ren);const nm=prompt('الاسم الجديد',s.name);if(nm&&nm.trim()){s.name=nm.trim();save();renderSecList();render()}}
-  if(d){const s=sec(d.dataset.del);const cnt=state.notes.filter(n=>n.sectionId===s.id).length;
-    if(confirm(cnt?`القسم "${s.name}" فيه ${cnt} نوت، بتنحذف كلها. متأكد؟`:`حذف القسم "${s.name}"؟`)){
-      state.sections=state.sections.filter(x=>x.id!==s.id);state.notes=state.notes.filter(n=>n.sectionId!==s.id);
-      if(current===s.id)current='all';save();renderSecList();render()}}
+  const act=e.target.closest('[data-act]'),card=e.target.closest('[data-sec]');if(!act||!card)return;
+  const s=sec(card.dataset.sec),a=act.dataset.act;
+  if(a==='ren'){const nm=prompt('اسم القسم',s.name);if(nm&&nm.trim())s.name=nm.trim()}
+  if(a==='del'){const cnt=state.notes.filter(n=>n.sectionId===s.id).length;
+    if(!confirm(cnt?`القسم "${s.name}" فيه ${cnt} نوت، بتنحذف كلها. متأكد؟`:`حذف القسم "${s.name}"؟`))return;
+    state.sections=state.sections.filter(x=>x.id!==s.id);state.notes=state.notes.filter(n=>n.sectionId!==s.id);if(current===s.id){current='all';currentCat='all'}}
+  if(a==='addcat'){const nm=prompt('اسم التصنيف (مثلاً: مشروع، كويزات)');if(nm&&nm.trim())s.cats.push({id:uid(),name:nm.trim()})}
+  if(a==='rencat'){const c=s.cats.find(x=>x.id===act.dataset.cat);const nm=prompt('اسم التصنيف',c.name);if(nm&&nm.trim())c.name=nm.trim()}
+  if(a==='delcat'){const id=act.closest('[data-cat]').dataset.cat,c=s.cats.find(x=>x.id===id);
+    if(!confirm(`حذف التصنيف "${c.name}"؟ النوتات اللي فيه بتبقى في القسم بدون تصنيف.`))return;
+    s.cats=s.cats.filter(x=>x.id!==id);state.notes.forEach(n=>{if(n.catId===id)n.catId=null});if(currentCat===id)currentCat='all'}
+  save();renderSecList();render();
 };
-$('chips').onclick=e=>{const c=e.target.closest('.chip');if(c){current=c.dataset.id;render()}};
-$('search').oninput=renderMain;
+$('chips').onclick=e=>{const c=e.target.closest('.chip');if(c){current=c.dataset.id;currentCat='all';render()}};
+$('subChips').onclick=e=>{const c=e.target.closest('.chip');if(c){currentCat=c.dataset.cat;render()}};
+document.querySelector('.tabs').onclick=e=>{const t=e.target.closest('.tab');if(!t)return;view=t.dataset.view;
+  document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('on',x===t));render()};
+$('search').oninput=render;
 
 // ----- theme
 $('themeBtn').onclick=()=>{const dark=matchMedia('(prefers-color-scheme: dark)').matches;
@@ -235,10 +408,10 @@ $('exportBtn').onclick=()=>{
 };
 $('importBtn').onclick=()=>$('importFile').click();
 $('importFile').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();
-  r.onload=()=>{try{const d=JSON.parse(r.result);if(!Array.isArray(d.sections)||!Array.isArray(d.notes))throw 0;
-    if(confirm('الاسترجاع بيستبدل النوتات الحالية. تكمل؟')){state=d;current='all';save();applyTheme();renderSecList();render();toast('تم الاسترجاع ✅')}}
+  r.onload=()=>{try{const d=JSON.parse(r.result);if(!valid(d))throw 0;
+    if(confirm('الاسترجاع بيستبدل النوتات الحالية. تكمل؟')){state=normalize(d);current='all';currentCat='all';save();applyTheme();renderSecList();render();toast('تم الاسترجاع ✅')}}
     catch(_){toast('الملف غير صالح')}};r.readAsText(f);e.target.value=''};
-window.onAndroidSaved=ok=>toast(ok?'انحفظت النسخة في التنزيلات ✅':'تعذّر الحفظ');
+window.onAndroidSaved=ok=>toast(ok?'انحفظت النسخة ✅':'تعذّر الحفظ');
 
 // back button closes sheets (Android)
 window.onAndroidBack=()=>{for(const id of ['noteSheet','menuSheet'])if($(id).classList.contains('open')){$(id).classList.remove('open');render();return true}return false};
