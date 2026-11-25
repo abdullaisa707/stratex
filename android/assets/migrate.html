@@ -1,0 +1,5 @@
+<!doctype html><meta charset="utf-8"><script>
+// Reads notes saved by the old offline version (file:// storage) and hands them to the app.
+var d=null;try{d=localStorage.getItem('daftari-v1')}catch(e){}
+Android.migrated(d||'');
+</script>

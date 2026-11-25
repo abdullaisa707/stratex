@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#4f46e5">
+<title>STRATEX</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<style>
+:root{--bg:#f6f7fb;--card:#fff;--text:#1f2333;--muted:#6b7080;--line:#e4e6ef;--accent:#4f46e5;--accent-soft:#eceafd;--danger:#dc2626;--shadow:0 1px 3px rgba(20,20,50,.08)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12131a;--card:#1c1e27;--text:#ecedf3;--muted:#9a9db0;--line:#2c2f3b;--accent:#8b85ff;--accent-soft:#2a2850;--shadow:none}}
+:root[data-theme="dark"]{--bg:#12131a;--card:#1c1e27;--text:#ecedf3;--muted:#9a9db0;--line:#2c2f3b;--accent:#8b85ff;--accent-soft:#2a2850;--shadow:none}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,"Segoe UI",Tahoma,sans-serif;font-size:16px}
+button,input,textarea,select{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none}
+header{position:sticky;top:0;z-index:5;background:var(--bg);padding:14px 16px 8px;padding-top:max(14px,env(safe-area-inset-top))}
+.top{display:flex;align-items:center;gap:8px}
+.top h1{font-size:22px;margin:0;flex:1;letter-spacing:2px;font-weight:800}
+.icon-btn{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;font-size:18px;background:var(--card);box-shadow:var(--shadow);border:1px solid var(--line)}
+.search{margin-top:10px;width:100%;padding:11px 14px;border-radius:12px;border:1px solid var(--line);background:var(--card);outline:none}
+.search:focus{border-color:var(--accent)}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:10px 16px 4px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:0 0 auto;padding:8px 14px;border-radius:999px;background:var(--card);border:1px solid var(--line);white-space:nowrap;font-size:15px}
+.chip.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.chip .n{opacity:.7;font-size:12px;margin-inline-start:4px}
+main{padding:8px 16px 110px;max-width:760px;margin:0 auto}
+.sec-head{display:flex;align-items:center;justify-content:space-between;margin:12px 2px 8px;color:var(--muted);font-size:14px}
+.sec-head button{color:var(--accent);font-size:14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px}
+.note{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;box-shadow:var(--shadow);text-align:start;display:flex;flex-direction:column;gap:6px;min-height:90px;border-top:4px solid var(--c,var(--line))}
+.note h3{margin:0;font-size:16px;word-break:break-word}
+.note p{margin:0;color:var(--muted);font-size:14px;line-height:1.5;display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden;white-space:pre-wrap;word-break:break-word}
+.note .meta{margin-top:auto;font-size:12px;color:var(--muted);display:flex;justify-content:space-between;gap:6px}
+.empty{text-align:center;color:var(--muted);padding:50px 10px}
+.empty b{display:block;font-size:40px;margin-bottom:8px}
+.fab{position:fixed;bottom:max(20px,env(safe-area-inset-bottom));inset-inline-start:20px;width:58px;height:58px;border-radius:18px;background:var(--accent);color:#fff;font-size:30px;box-shadow:0 6px 18px rgba(79,70,229,.4);z-index:6}
+.sheet-bg{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:20;display:none;align-items:flex-end;justify-content:center}
+.sheet-bg.open{display:flex}
+.sheet{background:var(--card);width:100%;max-width:760px;max-height:94vh;border-radius:20px 20px 0 0;padding:16px;padding-bottom:max(16px,env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:10px;overflow:auto}
+.sheet h2{margin:0 0 4px;font-size:18px}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.field{width:100%;padding:11px 12px;border-radius:12px;border:1px solid var(--line);background:var(--bg);outline:none}
+.field:focus{border-color:var(--accent)}
+textarea.field{min-height:42vh;resize:vertical;line-height:1.6}
+.btn{padding:10px 16px;border-radius:12px;background:var(--accent-soft);color:var(--accent);font-weight:600}
+.btn.primary{background:var(--accent);color:#fff}
+.btn.danger{background:transparent;color:var(--danger)}
+.spacer{flex:1}
+.colors{display:flex;gap:8px;flex-wrap:wrap}
+.colors button{width:30px;height:30px;border-radius:50%;border:3px solid transparent}
+.colors button.on{border-color:var(--text)}
+.list-item{display:flex;align-items:center;gap:10px;padding:10px;border:1px solid var(--line);border-radius:12px}
+.dot{width:14px;height:14px;border-radius:50%;flex:0 0 auto}
+.list-item .name{flex:1}
+.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:var(--text);color:var(--bg);padding:10px 16px;border-radius:12px;font-size:14px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:30}
+.toast.show{opacity:1}
+.pin{font-size:13px}
+small.hint{color:var(--muted)}
+</style>
+</head>
+<body>
+<header>
+  <div class="top">
+    <h1>STRATEX</h1>
+    <button class="icon-btn" id="themeBtn" aria-label="الوضع">🌓</button>
+    <button class="icon-btn" id="menuBtn" aria-label="الإعدادات">⚙️</button>
+  </div>
+  <input class="search" id="search" type="search" placeholder="ابحث في نوتاتك...">
+</header>
+<nav class="chips" id="chips"></nav>
+<main id="main"></main>
+<button class="fab" id="addBtn" aria-label="نوت جديدة">+</button>
+
+<!-- Note editor -->
+<div class="sheet-bg" id="noteSheet">
+  <div class="sheet">
+    <div class="row">
+      <h2 id="noteSheetTitle">نوت جديدة</h2><span class="spacer"></span>
+      <button class="btn" id="pinBtn">📌 تثبيت</button>
+    </div>
+    <input class="field" id="noteTitle" placeholder="العنوان">
+    <select class="field" id="noteSection"></select>
+    <textarea class="field" id="noteBody" placeholder="اكتب هنا..."></textarea>
+    <div class="row">
+      <button class="btn danger" id="delNote">🗑 حذف</button>
+      <span class="spacer"></span>
+      <button class="btn" id="cancelNote">إلغاء</button>
+      <button class="btn primary" id="saveNote">حفظ</button>
+    </div>
+  </div>
+</div>
+
+<!-- Settings / sections -->
+<div class="sheet-bg" id="menuSheet">
+  <div class="sheet">
+    <h2>الأقسام</h2>
+    <div id="secList" style="display:flex;flex-direction:column;gap:8px"></div>
+    <div class="row">
+      <input class="field" id="newSecName" placeholder="اسم قسم جديد" style="flex:1">
+    </div>
+    <div class="colors" id="colors"></div>
+    <button class="btn primary" id="addSec">+ إضافة قسم</button>
+    <hr style="border:0;border-top:1px solid var(--line);width:100%">
+    <h2>النسخ الاحتياطي</h2>
+    <small class="hint">نوتاتك محفوظة على جهازك. صدّر نسخة احتياطية بين فترة وفترة حتى ما تضيع لو حذفت التطبيق.</small>
+    <div class="row">
+      <button class="btn" id="exportBtn">⬇️ تصدير نسخة</button>
+      <button class="btn" id="importBtn">⬆️ استرجاع نسخة</button>
+      <input type="file" id="importFile" accept=".json,application/json" hidden>
+    </div>
+    <div class="row"><span class="spacer"></span><button class="btn" id="closeMenu">تم</button></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+const KEY='daftari-v1';
+const COLORS=['#4f46e5','#0ea5e9','#10b981','#f59e0b','#ef4444','#ec4899','#8b5cf6','#64748b'];
+const $=id=>document.getElementById(id);
+let state=load();
+let current='all';     // section filter
+let editingId=null, editPinned=false, newColor=COLORS[0];
+
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7)}
+function defaults(){
+  const s=[{id:uid(),name:'شخصي',color:COLORS[0]},{id:uid(),name:'شغل',color:COLORS[1]},{id:uid(),name:'أفكار',color:COLORS[3]}];
+  return {sections:s,notes:[{id:uid(),title:'أهلاً في STRATEX 👋',body:'- اضغط + عشان تضيف نوت\n- اختر القسم من فوق عشان تفلتر\n- من ⚙️ تقدر تضيف أقسام وتسوي نسخة احتياطية',sectionId:s[0].id,pinned:true,updated:Date.now()}],theme:null};
+}
+function valid(d){return d&&Array.isArray(d.sections)&&Array.isArray(d.notes)}
+function load(){
+  try{const d=JSON.parse(localStorage.getItem(KEY));if(valid(d))return d}catch(e){}
+  // First run in the updatable app: bring over notes from the old offline version.
+  try{if(window.Android&&Android.takeOldNotes){const o=JSON.parse(Android.takeOldNotes()||'null');if(valid(o)){localStorage.setItem(KEY,JSON.stringify(o));setTimeout(()=>toast('نقلنا نوتاتك القديمة ✅'),300);return o}}}catch(e){}
+  return defaults()}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){toast('تعذّر الحفظ!')}}
+function toast(m){const t=$('toast');t.textContent=m;t.classList.add('show');clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove('show'),1800)}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function sec(id){return state.sections.find(s=>s.id===id)}
+function fmt(t){const d=new Date(t);return d.toLocaleDateString('ar',{day:'numeric',month:'short'})}
+
+function applyTheme(){if(state.theme)document.documentElement.dataset.theme=state.theme;else delete document.documentElement.dataset.theme}
+
+function renderChips(){
+  const count=id=>state.notes.filter(n=>id==='all'||n.sectionId===id).length;
+  let h=`<button class="chip ${current==='all'?'on':''}" data-id="all">الكل<span class="n">${count('all')}</span></button>`;
+  for(const s of state.sections)h+=`<button class="chip ${current===s.id?'on':''}" data-id="${s.id}"><span class="dot" style="display:inline-block;width:9px;height:9px;background:${s.color};margin-inline-end:6px"></span>${esc(s.name)}<span class="n">${count(s.id)}</span></button>`;
+  $('chips').innerHTML=h;
+}
+function noteCard(n){
+  const s=sec(n.sectionId);
+  return `<button class="note" data-id="${n.id}" style="--c:${s?s.color:'var(--line)'}">
+    <h3>${n.pinned?'<span class="pin">📌</span> ':''}${esc(n.title||'بدون عنوان')}</h3>
+    ${n.body?`<p>${esc(n.body)}</p>`:''}
+    <div class="meta"><span>${s?esc(s.name):''}</span><span>${fmt(n.updated)}</span></div></button>`;
+}
+function renderMain(){
+  const q=$('search').value.trim().toLowerCase();
+  let list=state.notes.filter(n=>(current==='all'||n.sectionId===current)&&(!q||(n.title+' '+n.body).toLowerCase().includes(q)));
+  list.sort((a,b)=>(b.pinned-a.pinned)||(b.updated-a.updated));
+  if(!list.length){$('main').innerHTML=`<div class="empty"><b>${q?'🔍':'📝'}</b>${q?'ما في نتائج':'ما في نوتات هنا بعد، اضغط + وابدأ'}</div>`;return}
+  const pinned=list.filter(n=>n.pinned),rest=list.filter(n=>!n.pinned);
+  let h='';
+  if(pinned.length)h+=`<div class="sec-head">📌 المثبتة</div><div class="grid">${pinned.map(noteCard).join('')}</div>`;
+  if(rest.length)h+=`${pinned.length?'<div class="sec-head">الباقي</div>':''}<div class="grid">${rest.map(noteCard).join('')}</div>`;
+  $('main').innerHTML=h;
+}
+function render(){renderChips();renderMain()}
+
+// ----- note editor
+function openNote(id){
+  if(!state.sections.length){toast('أضف قسم أول من ⚙️');openMenu();return}
+  editingId=id;const n=id?state.notes.find(x=>x.id===id):null;
+  $('noteSheetTitle').textContent=n?'تعديل النوت':'نوت جديدة';
+  $('noteTitle').value=n?n.title:'';$('noteBody').value=n?n.body:'';
+  $('noteSection').innerHTML=state.sections.map(s=>`<option value="${s.id}">${esc(s.name)}</option>`).join('');
+  $('noteSection').value=n?n.sectionId:(current!=='all'?current:state.sections[0].id);
+  editPinned=n?!!n.pinned:false;updatePin();
+  $('delNote').style.visibility=n?'visible':'hidden';
+  $('noteSheet').classList.add('open');
+  if(!n)setTimeout(()=>$('noteTitle').focus(),50);
+}
+function updatePin(){$('pinBtn').textContent=editPinned?'📌 مثبتة':'📌 تثبيت';$('pinBtn').classList.toggle('primary',editPinned)}
+function closeNote(){$('noteSheet').classList.remove('open');editingId=null}
+function saveNote(){
+  const title=$('noteTitle').value.trim(),body=$('noteBody').value;
+  if(!title&&!body.trim()){closeNote();return}
+  const data={title,body,sectionId:$('noteSection').value,pinned:editPinned,updated:Date.now()};
+  if(editingId)Object.assign(state.notes.find(n=>n.id===editingId),data);
+  else state.notes.push({id:uid(),...data});
+  save();closeNote();render();toast('انحفظت ✅');
+}
+$('addBtn').onclick=()=>openNote(null);
+$('main').onclick=e=>{const c=e.target.closest('.note');if(c)openNote(c.dataset.id)};
+$('pinBtn').onclick=()=>{editPinned=!editPinned;updatePin()};
+$('saveNote').onclick=saveNote;
+$('cancelNote').onclick=closeNote;
+$('delNote').onclick=()=>{if(confirm('أكيد تبي تحذف النوت؟')){state.notes=state.notes.filter(n=>n.id!==editingId);save();closeNote();render();toast('انحذفت')}};
+
+// ----- sections
+function renderSecList(){
+  $('secList').innerHTML=state.sections.map(s=>`<div class="list-item"><span class="dot" style="background:${s.color}"></span><span class="name">${esc(s.name)}</span><small class="hint">${state.notes.filter(n=>n.sectionId===s.id).length}</small><button class="btn" data-ren="${s.id}">✏️</button><button class="btn danger" data-del="${s.id}">🗑</button></div>`).join('')||'<small class="hint">ما في أقسام</small>';
+  $('colors').innerHTML=COLORS.map(c=>`<button style="background:${c}" class="${c===newColor?'on':''}" data-c="${c}"></button>`).join('');
+}
+function openMenu(){renderSecList();$('menuSheet').classList.add('open')}
+$('menuBtn').onclick=openMenu;
+$('closeMenu').onclick=()=>{$('menuSheet').classList.remove('open');render()};
+$('colors').onclick=e=>{const b=e.target.closest('[data-c]');if(b){newColor=b.dataset.c;renderSecList()}};
+$('addSec').onclick=()=>{const name=$('newSecName').value.trim();if(!name){toast('اكتب اسم القسم');return}
+  state.sections.push({id:uid(),name,color:newColor});$('newSecName').value='';save();renderSecList();render();toast('انضاف القسم')};
+$('secList').onclick=e=>{
+  const r=e.target.closest('[data-ren]'),d=e.target.closest('[data-del]');
+  if(r){const s=sec(r.dataset.ren);const nm=prompt('الاسم الجديد',s.name);if(nm&&nm.trim()){s.name=nm.trim();save();renderSecList();render()}}
+  if(d){const s=sec(d.dataset.del);const cnt=state.notes.filter(n=>n.sectionId===s.id).length;
+    if(confirm(cnt?`القسم "${s.name}" فيه ${cnt} نوت، بتنحذف كلها. متأكد؟`:`حذف القسم "${s.name}"؟`)){
+      state.sections=state.sections.filter(x=>x.id!==s.id);state.notes=state.notes.filter(n=>n.sectionId!==s.id);
+      if(current===s.id)current='all';save();renderSecList();render()}}
+};
+$('chips').onclick=e=>{const c=e.target.closest('.chip');if(c){current=c.dataset.id;render()}};
+$('search').oninput=renderMain;
+
+// ----- theme
+$('themeBtn').onclick=()=>{const dark=matchMedia('(prefers-color-scheme: dark)').matches;
+  const cur=state.theme||(dark?'dark':'light');state.theme=cur==='dark'?'light':'dark';applyTheme();save()};
+
+// ----- backup
+$('exportBtn').onclick=()=>{
+  const json=JSON.stringify(state,null,2),name='stratex-backup-'+new Date().toISOString().slice(0,10)+'.json';
+  if(window.Android&&Android.saveFile){Android.saveFile(name,json);return}
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([json],{type:'application/json'}));a.download=name;a.click();toast('تم التصدير');
+};
+$('importBtn').onclick=()=>$('importFile').click();
+$('importFile').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();
+  r.onload=()=>{try{const d=JSON.parse(r.result);if(!Array.isArray(d.sections)||!Array.isArray(d.notes))throw 0;
+    if(confirm('الاسترجاع بيستبدل النوتات الحالية. تكمل؟')){state=d;current='all';save();applyTheme();renderSecList();render();toast('تم الاسترجاع ✅')}}
+    catch(_){toast('الملف غير صالح')}};r.readAsText(f);e.target.value=''};
+window.onAndroidSaved=ok=>toast(ok?'انحفظت النسخة في التنزيلات ✅':'تعذّر الحفظ');
+
+// back button closes sheets (Android)
+window.onAndroidBack=()=>{for(const id of ['noteSheet','menuSheet'])if($(id).classList.contains('open')){$(id).classList.remove('open');render();return true}return false};
+document.querySelectorAll('.sheet-bg').forEach(bg=>bg.addEventListener('click',e=>{if(e.target===bg){bg.classList.remove('open');render()}}));
+
+applyTheme();render();
+if('serviceWorker' in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('sw.js').catch(()=>{});
+})();
+</script>
+</body>
+</html>
